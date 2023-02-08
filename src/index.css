@@ -2,7 +2,20 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
+
+*::-webkit-scrollbar-thumb{
+  background-color: rgb(3, 3, 3);
+  width: 0px;
+  height: 1px;
+}
+
+*::-webkit-scrollbar{
+  visibility: hidden;
+  width: 5px;
+}
+
  body{
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

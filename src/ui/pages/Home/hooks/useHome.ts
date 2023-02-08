@@ -42,6 +42,10 @@ export function useHome() {
   const [scriptsOff, setScriptsOff] = useState<ScriptType[]>([]);
   const [isSearchOut, setIsSearchOut] = useState(false);
   const [isSearchOff, setIsSearchOff] = useState(false);
+  const [isOpenScript, setIsOpenScript] = useState(false);
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [url, setUrl] = useState("");
 
   useEffect(() => {
     setPage("home");
@@ -130,7 +134,6 @@ export function useHome() {
   }
 
   async function getScriptsOut() {
-    setLoading(true);
     const token = localStorage.getItem("token");
     if (!token) {
       return;
@@ -152,12 +155,9 @@ export function useHome() {
         timeError;
       }
     } else setScriptsOut(data);
-
-    setLoading(false);
   }
 
   async function getScriptsOff() {
-    setLoading(true);
     const token = localStorage.getItem("token");
     if (!token) {
       return;
@@ -179,8 +179,6 @@ export function useHome() {
         timeError;
       }
     } else setScriptsOff(data);
-
-    setLoading(false);
   }
 
   function insertQuestionChat(question: string) {
@@ -318,6 +316,10 @@ export function useHome() {
     scriptsOff,
     isSearchOut,
     isSearchOff,
+    isOpenScript,
+    question,
+    answer,
+    url,
     setEmail,
     setPassword,
     setName,
@@ -338,5 +340,9 @@ export function useHome() {
     resetSearchOut,
     searchOff,
     resetSearchOff,
+    setIsOpenScript,
+    setQuestion,
+    setAnswer,
+    setUrl,
   };
 }

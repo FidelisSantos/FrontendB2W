@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
 import { VscMenu, VscSearch, VscSearchStop } from "react-icons/vsc";
 import { ThreeDots, Comment } from "react-loader-spinner";
 
 import { inputSearchOffRef, inputSearchOutRef } from "../../../ref/ref";
-import ScriptType from "../../../types/ScriptType";
 import AlertError from "../../components/alert/AlertError";
 import AlertWithHeader from "../../components/alert/AlertWithHeader/AlertWithHeader";
 import CreateUser from "../../components/form/Home/CreateUser/CreateUser";
@@ -12,6 +10,7 @@ import ImageHome from "../../components/img/ImageHome";
 import ListScriptsHome from "../../components/list/ListScriptsHome/ListScriptsHome";
 import ChatModal from "../../components/modal/ChatModal/ChatModal";
 import Image from "../../components/modal/Image/Image";
+import ScriptModalHome from "../../components/modal/ScriptModalHome/ScriptModalHome";
 import Header from "../../components/navbar/Header";
 import Menu from "../../components/sidebar/Menu/Menu";
 import styles from "./Home.module.css";
@@ -38,6 +37,10 @@ function Home() {
     scriptsOff,
     isSearchOut,
     isSearchOff,
+    isOpenScript,
+    question,
+    answer,
+    url,
     setEmail,
     setPassword,
     setName,
@@ -54,9 +57,14 @@ function Home() {
     setImage,
     setTitleImage,
     searchOut,
+    setIsSearchOut,
     resetSearchOut,
     searchOff,
     resetSearchOff,
+    setIsOpenScript,
+    setQuestion,
+    setAnswer,
+    setUrl,
   } = useHome();
 
   return (
@@ -128,7 +136,7 @@ function Home() {
           )}
           {!loading && (
             <>
-              {user && user?.role != "user" && (
+              {user && user?.role != "user" && !isOpenChat && (
                 <div>
                   <div
                     hidden={!isOpenMenu}
@@ -157,11 +165,27 @@ function Home() {
                 </div>
               </div>
 
+              {!isOpenMenu && !isOpenChat && (
+                <div hidden={!isOpenScript}>
+                  <div className={"open-script"}>
+                    <ScriptModalHome
+                      setIsOpenScript={setIsOpenScript}
+                      setQuestion={setQuestion}
+                      setAnswer={setAnswer}
+                      setUrl={setUrl}
+                      question={question}
+                      answer={answer}
+                      url={url}
+                    />
+                  </div>
+                </div>
+              )}
+
               <div className={styles["list-scripts-container"]}>
                 <div className={styles["list-scripts"]}>
                   <div className={styles["scripts-container"]}>
                     <h1>Scripts Out</h1>
-                    <div className={styles["input-icon"]}>
+                    <div className={styles["icon-container"]}>
                       <input
                         type="text"
                         placeholder="Pesquisa"
@@ -187,12 +211,19 @@ function Home() {
                       </div>
                     </div>
                     {scriptsOut.map((script) => (
-                      <ListScriptsHome key={script.id} script={script} />
+                      <ListScriptsHome
+                        key={script.id}
+                        script={script}
+                        setIsOpenScript={setIsOpenScript}
+                        setQuestion={setQuestion}
+                        setAnswer={setAnswer}
+                        setUrl={setUrl}
+                      />
                     ))}
                   </div>
                   <div className={styles["scripts-container"]}>
                     <h1>Scripts Off</h1>
-                    <div className={styles["input-icon"]}>
+                    <div className={styles["icon-container"]}>
                       <input
                         type="text"
                         placeholder="Pesquisa"
@@ -219,7 +250,14 @@ function Home() {
                     </div>
 
                     {scriptsOff.map((script) => (
-                      <ListScriptsHome key={script.id} script={script} />
+                      <ListScriptsHome
+                        key={script.id}
+                        script={script}
+                        setIsOpenScript={setIsOpenScript}
+                        setQuestion={setQuestion}
+                        setAnswer={setAnswer}
+                        setUrl={setUrl}
+                      />
                     ))}
                   </div>
                 </div>
