@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { VscEye } from "react-icons/vsc";
-import { Form, FormGroup, Label, Button } from "reactstrap";
+import { Form, FormGroup, Label, Button, Input } from "reactstrap";
 
 import styles from "./Login.module.css";
 
@@ -12,6 +12,10 @@ function Login({ ...props }) {
     props.setPassword("");
   }, []);
 
+  function handleKeyPress(e: any) {
+    if (e.keyCode === 13) props.login();
+  }
+
   return (
     <>
       <div className={styles["container"]}>
@@ -22,10 +26,16 @@ function Login({ ...props }) {
             </div>
             <input
               type="email"
-              placeholder="Informe o Email"
-              className={styles["form-input"]}
+              placeholder="Email"
+              className={
+                props.error
+                  ? styles["form-input-invalid"]
+                  : styles["form-input"]
+              }
               onChange={(e) => props.setEmail(e.target.value)}
+              onKeyDown={(e) => handleKeyPress(e)}
               value={props.email}
+              required
             />
           </FormGroup>
           <FormGroup>
@@ -35,9 +45,14 @@ function Login({ ...props }) {
             <div className={styles["password-container"]}>
               <input
                 type={visible ? "text" : "password"}
-                placeholder="Informe a Senha"
-                className={styles["form-input"]}
+                placeholder="Senha"
+                className={
+                  props.error
+                    ? styles["form-input-password-invalid"]
+                    : styles["form-input-password"]
+                }
                 onChange={(e) => props.setPassword(e.target.value)}
+                onKeyDown={(e) => handleKeyPress(e)}
                 value={props.password}
               />
               <VscEye

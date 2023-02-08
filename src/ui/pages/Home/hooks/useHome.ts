@@ -1,31 +1,52 @@
-import { useEffect, useState } from "react";
+import CryptoJS from "crypto-js";
+import { useContext, useEffect, useState } from "react";
 
-import ScriptType from "../../../../types/ScriptType";
-import UserType from "../../../../types/UserType";
+import AppContext from "../../../../context/AppContext";
+import AuthUserType from "../../../../types/AuthUserType";
+import ChatTextType from "../../../../types/ChatTextType";
+import PostUserType from "../../../../types/PostUserType";
+import scriptsService from "../../Scripts/service/scriptsService";
 import { homeService } from "../service/homeService";
 
 export function useHome() {
+  const {
+    error,
+    loading,
+    errorMessage,
+    timeError,
+    scripts,
+    user,
+    isOpenMenu,
+    setUser,
+    setErrorMessage,
+    setLoading,
+    setError,
+    setScripts,
+    setPage,
+    setIsOpenMenu,
+  } = useContext(AppContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const [createNewUser, setCreateNewUser] = useState(false);
   const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isOpenChat, setIsOpenChat] = useState(false);
-  const [scripts, setScripts] = useState<ScriptType[]>([]);
+  const [chatText, setChatText] = useState<ChatTextType[]>([]);
 
   useEffect(() => {
+    setPage("home");
+    onClose();
     if (localStorage.getItem("token")) {
       getScripts();
+      const encriptedUser = localStorage.getItem("user") as string;
+      const decriptedUser = CryptoJS.AES.decrypt(encriptedUser, "testinho");
+      const currentUser: AuthUserType = JSON.parse(
+        decriptedUser.toString(CryptoJS.enc.Utf8)
+      ) as AuthUserType;
+      setUser(currentUser);
     }
   }, [localStorage.getItem("token")]);
-
-  const timeError = setInterval(() => {
-    setError(false);
-    clearInterval(timeError);
-  }, 5000);
 
   async function login() {
     setLoading(true);
@@ -36,9 +57,12 @@ export function useHome() {
       timeError;
     } else {
       localStorage.setItem("token", data.token);
-      localStorage.setItem("name", data.user.name);
-      localStorage.setItem("email", data.user.email);
-      location.reload();
+      const userEncrypte = CryptoJS.AES.encrypt(
+        JSON.stringify(data.user) as string,
+        "testinho"
+      ).toString();
+
+      localStorage.setItem("user", userEncrypte);
     }
     setLoading(false);
   }
@@ -46,7 +70,7 @@ export function useHome() {
   async function createUser() {
     setLoading(true);
     if (password === confirmPassword) {
-      const user: UserType = {
+      const user: PostUserType = {
         name: name,
         email: email,
         password: password,
@@ -58,7 +82,6 @@ export function useHome() {
         timeError;
       } else {
         setCreateNewUser(false);
-        console.log("deu boa");
       }
     } else {
       setErrorMessage("Confirmação da senha diferente da senha");
@@ -74,19 +97,109 @@ export function useHome() {
     if (!token) {
       return;
     }
-    const { data, requestError } = await homeService.getScripts(token);
+    const { data, requestError } = await scriptsService.getScripts(
+      "procedures",
+      token
+    );
     if (requestError) {
-      setErrorMessage(data);
-      setError(true);
-      timeError;
-    } else {
-      setScripts(data);
-    }
+      if (data === "Unauthorized") {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("scripts");
+        setErrorMessage("Sessão expirou");
+        location.reload();
+      } else {
+        setError(true);
+        setErrorMessage(data);
+        timeError;
+      }
+    } else setScripts(data);
+
     setLoading(false);
+  }
+
+  function insertQuestionChat(question: string) {
+    const questionUser: string[] = [];
+    questionUser.push(question);
+    const userText: ChatTextType = {
+      sender: "User",
+      message: {
+        text: questionUser,
+      },
+    };
+    chatText.push(userText);
+    searchScript(question);
+  }
+
+  function searchScript(e: string) {
+    let search = false;
+    const questions: string[] = [];
+    let answers: string[] = [];
+    let answer: ChatTextType = {
+      sender: "",
+      message: {
+        text: [],
+      },
+    };
+
+    scripts?.forEach((script) => {
+      if (script.question.includes(e)) {
+        search = true;
+        answers.push(script.answer);
+        questions.push(script.question);
+        answers.push("Posso te ajudar em mais alguma dúvida?");
+        answer = {
+          sender: "Olivia",
+          message: {
+            image: script.imgAnswer,
+            text: answers,
+          },
+        };
+      }
+    });
+
+    if (questions.length > 1) {
+      answers = [];
+      answers.push("Resultados Encontrados: ");
+      questions.forEach((question) => {
+        answers.push(`- ${question}`);
+      });
+      answers.push(
+        "Para facilitar poderia informar o procedimento completo que está procurando?"
+      );
+      answer = {
+        sender: "Olivia",
+        message: {
+          text: answers,
+        },
+      };
+    }
+
+    if (!search) {
+      answers = [];
+      answers.push("Desculpe não encontrei");
+      answers.push("Posso te ajudar em mais alguma dúvida?");
+      answer = {
+        sender: "Olivia",
+        message: {
+          text: answers,
+        },
+      };
+    }
+
+    chatText.push(answer);
+  }
+
+  function onClose() {
+    const div = document.querySelector(".chat-container");
+    if (div) div.innerHTML = "";
+    setChatText([]);
+    setIsOpenChat(false);
   }
 
   return {
     setEmail,
+    user,
     email,
     password,
     setPassword,
@@ -103,5 +216,11 @@ export function useHome() {
     setIsOpenChat,
     login,
     createUser,
+    chatText,
+    setChatText,
+    insertQuestionChat,
+    onClose,
+    isOpenMenu,
+    setIsOpenMenu,
   };
 }

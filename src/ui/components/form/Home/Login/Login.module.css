@@ -9,6 +9,7 @@
 
 .form-container{
   text-align: center;
+  align-items: baseline;
 }
 
 .form-label {
@@ -36,8 +37,70 @@
 }
 
 .form-input::placeholder {
-
   font-weight: bold;
+  font-style: italic;
+}
+
+.form-input-invalid {
+  outline: 0;
+  border: 0;
+  min-width: 200px;
+  background-color: rgb(255, 126, 126);
+  min-height: 30px;
+  width: 30vw;
+  height: 4vh;
+  text-align: center;
+  color: rgb(56, 53, 53);
+  margin: 10px;
+  font-size: 1.2rem;
+}
+
+.form-input-invalid::placeholder {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.form-input-password {
+  outline: 0;
+  border: 0;
+  min-width: 200px;
+  min-height: 30px;
+  width: calc(30vw - 16px);
+  height: 4vh;
+  text-align: center;
+  color: rgb(56, 53, 53);
+  margin: 10px;
+  font-size: 1.2rem;
+}
+
+.form-input-password:focus {
+  transition: 1.2s;
+  outline: 0;
+  background-color: rgb(227, 249, 255);
+}
+
+.form-input-password::placeholder {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.form-input-password-invalid {
+  outline: 0;
+  border: 0;
+  min-width: 200px;
+  min-height: 30px;
+  background-color: rgb(255, 126, 126);
+  width: calc(30vw - 16px);
+  height: 4vh;
+  text-align: center;
+  color: rgb(56, 53, 53);
+  margin: 10px;
+  font-size: 1.2rem;
+}
+
+.form-input-password-invalid{
+  font-weight: bold;
+  font-style: italic; 
 }
 
 .password-container{
@@ -66,4 +129,8 @@
 
 .show-password:hover {
   cursor: pointer;
+}
+
+.show-password-invalid {
+  background-color: rgb(255, 126, 126); ;
 }

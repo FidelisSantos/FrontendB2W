@@ -8,12 +8,13 @@
   position: fixed;
   font-size: 100%;
   font-weight: bold;
+  border: 2px solid red;
   color: rgb(85, 0, 0);
   width: 30%;
   height: fit-content;
   padding: 10px;
   justify-content: center;
   left: 35%;
-  background-color: rgb(241, 59, 59);
+  background-color: rgb(255, 126, 126);
   border-radius: 30px;
 }

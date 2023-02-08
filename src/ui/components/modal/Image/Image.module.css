@@ -1,0 +1,34 @@
+.modal-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  width: 90%;
+  min-width: 500px;
+}
+
+.modal-image-header {
+  display: flex;
+  justify-content: space-between;
+  background-color: black;
+  color: white;
+  border-radius: 10px 10px 0px 0px;
+  padding: 10px;
+}
+
+.modal-image-header-icon {
+  font-size: 40px;
+  color: red;
+}
+
+.modal-image-header-icon:hover {
+  transition: 0.5s;
+  cursor: pointer;
+  color: rgb(151, 0, 0);
+}
+
+.modal-image-img {
+  border-radius: 0px 0px 10px 10px;
+  height: 80%;
+  min-height: 300px;
+}

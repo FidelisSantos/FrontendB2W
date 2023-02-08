@@ -1,0 +1,21 @@
+.alert-container {
+  width: 100%;
+  text-align: center;
+}
+
+.alert {
+  display: flex;
+  position: absolute;
+  margin-top: 55px;
+  font-size: 100%;
+  font-weight: bold;
+  border: 2px solid red;
+  color: rgb(85, 0, 0);
+  width: 30%;
+  height: fit-content;
+  padding: 10px;
+  justify-content: center;
+  left: 35%;
+  background-color: rgb(255, 126, 126);
+  border-radius: 30px;
+}

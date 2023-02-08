@@ -14,6 +14,10 @@ function CreateUser({ ...props }) {
     props.setPassword("");
   }, []);
 
+  function handleKeyPress(e: any) {
+    if (e.keyCode === 13) props.createUser();
+  }
+
   return (
     <>
       <div className={styles["container"]}>
@@ -24,9 +28,14 @@ function CreateUser({ ...props }) {
             </div>
             <input
               type="email"
-              placeholder="Informe o Nome Completo"
-              className={styles["form-input"]}
+              placeholder="Nome Completo"
+              className={
+                props.error
+                  ? styles["form-input-invalid"]
+                  : styles["form-input"]
+              }
               onChange={(e) => props.setName(e.target.value)}
+              onKeyDown={(e) => handleKeyPress(e)}
               value={props.name}
             />
           </FormGroup>
@@ -36,9 +45,14 @@ function CreateUser({ ...props }) {
             </div>
             <input
               type="email"
-              placeholder="Informe o Email"
-              className={styles["form-input"]}
+              placeholder="Email"
+              className={
+                props.error
+                  ? styles["form-input-invalid"]
+                  : styles["form-input"]
+              }
               onChange={(e) => props.setEmail(e.target.value)}
+              onKeyDown={(e) => handleKeyPress(e)}
               value={props.email}
             />
           </FormGroup>
@@ -48,9 +62,14 @@ function CreateUser({ ...props }) {
             </div>
             <input
               type={passwordVisibilty ? "text" : "password"}
-              placeholder="Informe a Senha"
-              className={styles["form-input"]}
+              placeholder="Senha"
+              className={
+                props.error
+                  ? styles["form-input-password-invalid"]
+                  : styles["form-input-password"]
+              }
               onChange={(e) => props.setPassword(e.target.value)}
+              onKeyDown={(e) => handleKeyPress(e)}
               value={props.password}
             />
             <VscEye
@@ -66,9 +85,14 @@ function CreateUser({ ...props }) {
             <div className={styles["password-container"]}>
               <input
                 type={confirmPasswordVisibility ? "text" : "password"}
-                placeholder="Confirme a senha"
-                className={styles["form-input"]}
+                placeholder="Confirme a Senha"
+                className={
+                  props.error
+                    ? styles["form-input-password-invalid"]
+                    : styles["form-input-password"]
+                }
                 onChange={(e) => props.setConfirmPassword(e.target.value)}
+                onKeyDown={(e) => handleKeyPress(e)}
                 value={props.confirmPassword}
               />
               <VscEye

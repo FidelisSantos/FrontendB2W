@@ -1,0 +1,61 @@
+.list-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 140px;
+  align-content: center;
+  margin: 10px;
+  padding: 10px;
+}
+
+.name-role-container {
+  display: flex;
+  align-content: baseline;
+  justify-content: center;
+} 
+
+.btn-remove {
+  font-size: 35px;
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  display: flex;
+}
+
+.btn-remove:hover {
+  cursor: pointer;
+}
+
+.name {
+  font-size: 2rem;
+  margin-right: 10px;
+  display: flex;
+}
+
+.role {
+  color: rgb(0, 0, 0);
+  opacity: 0.5;
+  font-size: 0.8rem;
+  margin-top: 8px;
+}
+
+.buttons-container {
+  display: flex;
+  margin: 10px 0px;
+  justify-content: center;
+}
+
+.buttons {
+  outline: 0;
+  border: 1px solid white;
+  margin-right: 10px;
+  font-size: 1.1rem;
+  padding: 5px;
+  width: 200px;
+  color: white;
+  background-color: black;
+}
+
+.buttons:hover {
+  cursor: pointer;
+}

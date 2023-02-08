@@ -1,26 +1,99 @@
 .header-container {
-  background-color: black;
-  height: 45px;
+  background-color: rgb(255, 255, 255);
+  height: 55px;
   list-style-type: none;
   margin: 0;
   padding: 0;
   align-items: baseline;
 }
+
 .header-container-logo {
   background-color: white;
+  height: 45px;
   float: left;
 }
+
 .header-container-logo img {
   width: 100%;
-  height: 35px;
+  height: 45px;
 }
+
 .header-container-options {
-  margin-top: 3px;
+  display: flex;
+  margin-top: 6px;
   float: right;
+  text-align: center;
+}
+
+.header-container-options-drop-title{
+  display: flex;
+}
+
+.header-container-options-drop-title:hover{
+  cursor: pointer;
+}
+
+.header-container-options:hover .header-container-options-drop-container {
+  display: flex;
+}
+
+
+.header-container-options .header-container-options-drop-container {
+  display: none;
 }
 
 .header-container li a {
   display: block;
   padding: 8px;
-  color: white;
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
+
+.header-container-options-nav{
+  color: black;
+}
+
+.header-container-options-drop-container{
+  background-color: black;
+  color: white;
+  text-align: center;
+  flex-direction: column;
+  margin-right: 10px;
+  width: 160px;
+  position: relative;
+  top: 36px;
+  right: 97px;
+}
+
+.header-container-options-drop{
+  list-style-type: none;
+  color: white;
+  background-color: rgb(192, 194, 194);
+}
+
+.header-container-options-drop:hover{
+  background-color: white;
+  color:black;
+  cursor:pointer;
+  transition: 0.5s;
+  border: 1px solid black;
+}
+
+.header-container-options-drop-title p {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 8px;
+  margin-right: 10px;
+}
+
+.header-container-options-icon{
+  margin-top: 12px;
+}
+
+.header-container-options-logout {
+  font-size: 1.5rem;
+}
+

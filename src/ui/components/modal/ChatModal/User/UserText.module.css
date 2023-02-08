@@ -1,0 +1,35 @@
+.user {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  margin-top:8px;
+  margin-right: 5px;
+  width: 100%;
+  height: fit-content;
+  overflow: auto;
+}
+
+
+.user-text-container p{
+  margin: 3% 8px 0  0 ;
+  background-color: rgb(209, 255, 249);
+  max-width: 80%;
+  color: black;
+  border-radius: 8px;
+  align-content: flex-end;
+  padding: 10px 10px 10px 10px;
+  margin-left: 20%;
+}
+
+.user-text-container {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.user img {
+  margin-right: 5px;
+  height: 50px;
+  object-fit: fill;
+  border-radius: 50%;
+}

@@ -1,7 +1,9 @@
 type UserType = {
+  role: string;
   name: string;
   email: string;
-  password: string;
+  isValid: boolean;
+  id: string;
 };
 
 export default UserType;

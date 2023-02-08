@@ -1,15 +1,100 @@
+.chat {
+  overflow: hidden;
+}
+
+.chat:-webkit-scrollbar{
+  visibility: hidden;
+  background-color: white;
+  width: 1px;
+  height: 1px;
+}
+
+.chat::-webkit-scrollbar-thumb{
+  background-color: white;
+  width: 0px;
+  height: 1px;
+}
+
+.chat-header{
+  display: flex;
+  justify-content: space-between;
+  height: 35px;
+  background: white;
+}
+
+.chat-header-name-status {
+  display: flex;
+  align-items: baseline;
+}
+
+.chat-header-name-status p {
+  margin-top: 5px;
+  margin-left: 2px;
+  margin-right: 4px;
+  color: black;
+}
+
+.chat-header button {
+  background-color: rgb(199, 0, 0);
+  outline: 0;
+  border: 0;
+}
+
+
+.chat-header button:hover {
+  background-color: rgb(94, 0, 0);
+  transition: 0.7s;
+}
+
+
+.btn-close {
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  width: 40px;
+}
+
 .chat-body {
   display: flex;
+  flex-direction: column;
   width: 100%;
+  align-content: space-between;
   max-height: 600px;
   height: 70vh;
   min-width: 400px;
-  overflow: auto;
+  background: linear-gradient(90deg, rgb(82, 81, 81) 0%, rgb(71, 71, 71) 35%, rgb(31, 31, 31) 100%);
 }
+
+.chat-written-container{  
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 50px);
+  overflow: auto !important;
+}
+
+.chat-written-container::-webkit-scrollbar-thumb{
+  background-color: white;
+  width: 0px;
+  height: 1px;
+}
+
+.chat-written-container::-webkit-scrollbar{
+  visibility: hidden;
+  background-color: white;
+  width: 5px;
+  height: 1px;
+}
+
+.chat-header{
+  display: flex;
+  justify-content: space-between;
+  height: 35px;
+  background: white;
+}
+
 
 .chat-container-text{
   display: flex;
-  position: absolute;
   min-width: 100px;
   bottom: 0;
   width: 100%;
@@ -23,10 +108,11 @@
 .chat-text {
   resize: none;
   height: 50px;
-  align-items: flex-end;
   overflow-y:auto;
   width: 100%;
   border-radius: 5px;
+  padding: 5px;
+  font-style: italic;
 }
 
 .chat-button {
@@ -44,35 +130,8 @@
   opacity: 0.5;
 }
 
-.olivia {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-start;
-  margin-top:15px;
-  margin-right: 5px;
-  width: 100%;
-  height: min-content;
-}
-
-.olivia-text-container p{
-  margin-top: 40px;
-  background-color: rgb(58, 255, 229);
-  max-width: 80%;
-  color: black;
-  border-radius: 8px;
-  align-content: flex-end;
-  padding: 10px 10px 10px 10px;
-
-}
-
-.olivia-text-container {
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
-}
-
-.olivia img {
-  height: 50px;
-  object-fit: fill;
-  border-radius: 50%;
+.chat-container button {
+  width: 10%;
+  min-width: 30px;
+  cursor: pointer;
 }
