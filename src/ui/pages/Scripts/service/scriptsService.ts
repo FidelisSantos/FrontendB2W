@@ -31,7 +31,7 @@ const scriptsService = {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((response) => {
+      .then(() => {
         requestError = false;
       })
       .catch((error) => {
@@ -55,7 +55,36 @@ const scriptsService = {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((response) => {
+      .then(() => {
+        requestError = false;
+      })
+      .catch((error) => {
+        if (error.response.status == 401) {
+          data = "Unauthorized";
+        } else {
+          data = error.response.data;
+        }
+        requestError = true;
+      });
+
+    return { requestError, data };
+  },
+  updateScript: async (
+    endPoint: string,
+    token: string,
+    body: FormData,
+    id: string
+  ) => {
+    let requestError = false;
+    let data: any;
+    await api
+      .put(`${endPoint}/${id}`, body, {
+        headers: {
+          Authorization: token,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => {
         requestError = false;
       })
       .catch((error) => {

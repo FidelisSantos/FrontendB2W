@@ -32,6 +32,7 @@ function useScripts() {
   const [isOpenImage, setIsOpenImage] = useState(false);
   const [image, setImage] = useState("");
   const [titleImage, setTitleImage] = useState("");
+  const [id, setId] = useState("");
   let currentUser: AuthUserType = {
     id: "",
     email: "",
@@ -171,6 +172,62 @@ function useScripts() {
     setLoading(false);
   }
 
+  async function updateScript(
+    endPoint: string,
+    id: string,
+    question: string,
+    answer: string,
+    answerUrl?: string,
+    answerFiles?: FileList
+  ) {
+    setLoading(true);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      location.reload();
+    }
+
+    console.log({ question: question });
+    console.log({ answer: answer });
+    console.log({ answerUrl: answerUrl });
+    console.log({ answerFile: answerFile });
+
+    const body = new FormData();
+    body.append("question", question);
+    body.append("answer", answer);
+    if (answerUrl) body.append("imgAnswer", answerUrl);
+    if (
+      answerFiles &&
+      answerFiles.length > 0 &&
+      imagesTypes.includes(answerFiles[0].type)
+    )
+      body.append("image", answerFiles[0], answerFiles[0].name);
+
+    const { data, requestError } = await scriptsService.updateScript(
+      endPoint,
+      token as string,
+      body,
+      id
+    );
+    if (requestError) {
+      if (data === "Unauthorized") {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        setErrorMessage("Sessão expirou");
+        setError(true);
+        location.reload();
+      } else {
+        setErrorMessage(data);
+        setError(true);
+      }
+
+      timeError;
+    } else getScripts(endPoint);
+
+    setLoading(false);
+  }
+
   return {
     loading,
     errorMessage,
@@ -188,6 +245,7 @@ function useScripts() {
     image,
     isOpenImage,
     titleImage,
+    id,
     setTitleImage,
     setImage,
     setAnswerUrl,
@@ -202,6 +260,8 @@ function useScripts() {
     setIsOpenImage,
     createScript,
     deleteScript,
+    updateScript,
+    setId,
   };
 }
 

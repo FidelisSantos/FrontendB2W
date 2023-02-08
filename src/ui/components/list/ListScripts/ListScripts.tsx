@@ -1,13 +1,12 @@
-import { useState } from "react";
 import { VscEdit, VscTrash } from "react-icons/vsc";
 
 import ActionEnum from "../../../../enum/ActionEnum";
-import Image from "../../modal/Image/Image";
 import styles from "./ListScripts.module.css";
 
 function ListScripts({ ...props }) {
-  const [isOpenImage, setISOpenImage] = useState(false);
   function updateScript() {
+    console.log(props.text.id);
+    props.setId(props.text.id);
     props.setQuestion(props.text.question);
     props.setAnswer(props.text.answer);
     props.setAnswerUrl(props.text.imgAnswer);

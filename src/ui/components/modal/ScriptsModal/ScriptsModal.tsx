@@ -15,6 +15,7 @@ function ScriptsModal({ ...props }) {
     props.setQuestion("");
     props.setAnswer("");
     props.setAnswerUrl("");
+    props.setAnswerFile("");
     props.setAction(ActionEnum.Create);
     props.setIsOpen(false);
   }
@@ -25,6 +26,16 @@ function ScriptsModal({ ...props }) {
     const answerUrl = inputAnswerUrlRef.current?.value;
     const answerFile = inputAnswerFileRef.current?.files;
     props.create(question, answer, answerUrl, answerFile);
+    close();
+  }
+
+  function update() {
+    const question = inputQuestionRef.current?.value || "";
+    const answer = textAreaAnswerRef.current?.value || "";
+    const answerUrl = inputAnswerUrlRef.current?.value;
+    const answerFile = inputAnswerFileRef.current?.files;
+    props.update(props.id, question, answer, answerUrl, answerFile);
+    close();
   }
 
   useEffect(() => {
@@ -35,6 +46,7 @@ function ScriptsModal({ ...props }) {
         inputAnswerUrlRef.current.value = props.answerUrl || "";
       if (inputQuestionRef.current)
         inputQuestionRef.current.value = props.question || "";
+      if (inputAnswerFileRef.current) inputAnswerFileRef.current.value = "";
     } else {
       if (inputAnswerFileRef.current) inputAnswerFileRef.current.value = "";
       if (textAreaAnswerRef.current) textAreaAnswerRef.current.value = "";
@@ -122,9 +134,7 @@ function ScriptsModal({ ...props }) {
             color="green"
             className={styles["modal-scripts-icon"]}
             onClick={() =>
-              props.action === ActionEnum.Create
-                ? create()
-                : console.log("update")
+              props.action === ActionEnum.Create ? create() : update()
             }
           />
         </button>

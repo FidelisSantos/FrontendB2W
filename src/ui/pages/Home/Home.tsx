@@ -1,12 +1,17 @@
-import { VscMenu } from "react-icons/vsc";
+import { useEffect, useState } from "react";
+import { VscMenu, VscSearch, VscSearchStop } from "react-icons/vsc";
 import { ThreeDots, Comment } from "react-loader-spinner";
 
+import { inputSearchOffRef, inputSearchOutRef } from "../../../ref/ref";
+import ScriptType from "../../../types/ScriptType";
 import AlertError from "../../components/alert/AlertError";
 import AlertWithHeader from "../../components/alert/AlertWithHeader/AlertWithHeader";
 import CreateUser from "../../components/form/Home/CreateUser/CreateUser";
 import Login from "../../components/form/Home/Login/Login";
 import ImageHome from "../../components/img/ImageHome";
+import ListScriptsHome from "../../components/list/ListScriptsHome/ListScriptsHome";
 import ChatModal from "../../components/modal/ChatModal/ChatModal";
+import Image from "../../components/modal/Image/Image";
 import Header from "../../components/navbar/Header";
 import Menu from "../../components/sidebar/Menu/Menu";
 import styles from "./Home.module.css";
@@ -14,30 +19,44 @@ import { useHome } from "./hooks/useHome";
 
 function Home() {
   const {
-    setEmail,
     user,
     email,
     password,
-    setPassword,
     error,
     loading,
     name,
-    setName,
     confirmPassword,
-    setConfirmPassword,
     errorMessage,
     createNewUser,
-    setCreateNewUser,
     isOpenChat,
+    chatText,
+    isOpenMenu,
+    isOpenImage,
+    image,
+    titleImage,
+    scriptsOut,
+    scriptsOff,
+    isSearchOut,
+    isSearchOff,
+    setEmail,
+    setPassword,
+    setName,
+    setConfirmPassword,
+    setCreateNewUser,
     setIsOpenChat,
     login,
     createUser,
-    chatText,
     setChatText,
     insertQuestionChat,
     onClose,
-    isOpenMenu,
     setIsOpenMenu,
+    setIsOpenImage,
+    setImage,
+    setTitleImage,
+    searchOut,
+    resetSearchOut,
+    searchOff,
+    resetSearchOff,
   } = useHome();
 
   return (
@@ -127,6 +146,85 @@ function Home() {
                   </div>
                 </div>
               )}
+
+              <div hidden={!isOpenImage}>
+                <div className={styles["modal-container"]}>
+                  <Image
+                    setIsOpenImage={setIsOpenImage}
+                    image={image}
+                    title={titleImage}
+                  />
+                </div>
+              </div>
+
+              <div className={styles["list-scripts-container"]}>
+                <div className={styles["list-scripts"]}>
+                  <div className={styles["scripts-container"]}>
+                    <h1>Scripts Out</h1>
+                    <div className={styles["input-icon"]}>
+                      <input
+                        type="text"
+                        placeholder="Pesquisa"
+                        className={styles["list-scripts-search"]}
+                        disabled={isSearchOut}
+                        onKeyDown={(e: any) =>
+                          e.keyCode === 13 ? searchOut() : null
+                        }
+                        ref={inputSearchOutRef}
+                      />
+                      <div>
+                        {isSearchOut ? (
+                          <VscSearchStop
+                            onClick={resetSearchOut}
+                            className={styles["scripts-icon"]}
+                          />
+                        ) : (
+                          <VscSearch
+                            onClick={searchOut}
+                            className={styles["scripts-icon"]}
+                          />
+                        )}
+                      </div>
+                    </div>
+                    {scriptsOut.map((script) => (
+                      <ListScriptsHome key={script.id} script={script} />
+                    ))}
+                  </div>
+                  <div className={styles["scripts-container"]}>
+                    <h1>Scripts Off</h1>
+                    <div className={styles["input-icon"]}>
+                      <input
+                        type="text"
+                        placeholder="Pesquisa"
+                        className={styles["list-scripts-search"]}
+                        ref={inputSearchOffRef}
+                        disabled={isSearchOff}
+                        onKeyDown={(e: any) =>
+                          e.keyCode === 13 ? searchOff() : null
+                        }
+                      />
+                      <div>
+                        {isSearchOff ? (
+                          <VscSearchStop
+                            onClick={resetSearchOff}
+                            className={styles["scripts-icon"]}
+                          />
+                        ) : (
+                          <VscSearch
+                            onClick={searchOff}
+                            className={styles["scripts-icon"]}
+                          />
+                        )}
+                      </div>
+                    </div>
+
+                    {scriptsOff.map((script) => (
+                      <ListScriptsHome key={script.id} script={script} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+
               <div className={styles["body"]}>
                 <div
                   className={styles["chat-Olivia"]}

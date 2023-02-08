@@ -30,6 +30,7 @@ function Procedures() {
     image,
     isOpenImage,
     titleImage,
+    id,
     setTitleImage,
     setImage,
     setAnswerUrl,
@@ -44,6 +45,8 @@ function Procedures() {
     setIsOpenImage,
     createScript,
     deleteScript,
+    updateScript,
+    setId,
   } = useScripts();
 
   useEffect(() => {
@@ -65,6 +68,16 @@ function Procedures() {
 
   function delet(id: string) {
     deleteScript("procedures", id);
+  }
+
+  function update(
+    id: string,
+    question: string,
+    answer: string,
+    answerUrl?: string,
+    answerFiles?: FileList
+  ) {
+    updateScript("procedures", id, question, answer, answerUrl, answerFiles);
   }
 
   return (
@@ -145,6 +158,7 @@ function Procedures() {
                       setImage={setImage}
                       setTitleImage={setTitleImage}
                       isOpenImage={isOpenImage}
+                      setId={setId}
                     />
                   ))}
                 </>
@@ -162,7 +176,10 @@ function Procedures() {
                     setAnswerFile={setAnswerFile}
                     action={action}
                     setAction={setAction}
+                    setId={setId}
+                    id={id}
                     create={create}
+                    update={update}
                   />
                 </>
               </div>

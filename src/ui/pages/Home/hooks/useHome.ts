@@ -2,9 +2,11 @@ import CryptoJS from "crypto-js";
 import { useContext, useEffect, useState } from "react";
 
 import AppContext from "../../../../context/AppContext";
+import { inputSearchOffRef, inputSearchOutRef } from "../../../../ref/ref";
 import AuthUserType from "../../../../types/AuthUserType";
 import ChatTextType from "../../../../types/ChatTextType";
 import PostUserType from "../../../../types/PostUserType";
+import ScriptType from "../../../../types/ScriptType";
 import scriptsService from "../../Scripts/service/scriptsService";
 import { homeService } from "../service/homeService";
 
@@ -33,12 +35,21 @@ export function useHome() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isOpenChat, setIsOpenChat] = useState(false);
   const [chatText, setChatText] = useState<ChatTextType[]>([]);
+  const [isOpenImage, setIsOpenImage] = useState(false);
+  const [image, setImage] = useState("");
+  const [titleImage, setTitleImage] = useState("");
+  const [scriptsOut, setScriptsOut] = useState<ScriptType[]>([]);
+  const [scriptsOff, setScriptsOff] = useState<ScriptType[]>([]);
+  const [isSearchOut, setIsSearchOut] = useState(false);
+  const [isSearchOff, setIsSearchOff] = useState(false);
 
   useEffect(() => {
     setPage("home");
     onClose();
     if (localStorage.getItem("token")) {
       getScripts();
+      getScriptsOut();
+      getScriptsOff();
       const encriptedUser = localStorage.getItem("user") as string;
       const decriptedUser = CryptoJS.AES.decrypt(encriptedUser, "testinho");
       const currentUser: AuthUserType = JSON.parse(
@@ -118,6 +129,60 @@ export function useHome() {
     setLoading(false);
   }
 
+  async function getScriptsOut() {
+    setLoading(true);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return;
+    }
+    const { data, requestError } = await scriptsService.getScripts(
+      "out",
+      token
+    );
+    if (requestError) {
+      if (data === "Unauthorized") {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("scripts");
+        setErrorMessage("Sessão expirou");
+        location.reload();
+      } else {
+        setError(true);
+        setErrorMessage(data);
+        timeError;
+      }
+    } else setScriptsOut(data);
+
+    setLoading(false);
+  }
+
+  async function getScriptsOff() {
+    setLoading(true);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return;
+    }
+    const { data, requestError } = await scriptsService.getScripts(
+      "off",
+      token
+    );
+    if (requestError) {
+      if (data === "Unauthorized") {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("scripts");
+        setErrorMessage("Sessão expirou");
+        location.reload();
+      } else {
+        setError(true);
+        setErrorMessage(data);
+        timeError;
+      }
+    } else setScriptsOff(data);
+
+    setLoading(false);
+  }
+
   function insertQuestionChat(question: string) {
     const questionUser: string[] = [];
     questionUser.push(question);
@@ -143,7 +208,7 @@ export function useHome() {
     };
 
     scripts?.forEach((script) => {
-      if (script.question.includes(e)) {
+      if (script.question.toLowerCase().includes(e.toLowerCase())) {
         search = true;
         answers.push(script.answer);
         questions.push(script.question);
@@ -190,6 +255,42 @@ export function useHome() {
     chatText.push(answer);
   }
 
+  function searchOut() {
+    const search = inputSearchOutRef.current?.value as string;
+    if (search.length < 0) return;
+    setIsSearchOut(true);
+    const scripts: ScriptType[] = [];
+    scriptsOut.forEach((script) => {
+      if (script.question.toLowerCase().includes(search.toLowerCase()))
+        scripts.push(script);
+    });
+    setScriptsOut(scripts);
+  }
+
+  function resetSearchOut() {
+    if (inputSearchOutRef.current) inputSearchOutRef.current.value = "";
+    setIsSearchOut(false);
+    getScriptsOut();
+  }
+
+  function searchOff() {
+    const search = inputSearchOffRef.current?.value as string;
+    if (search.length < 0) return;
+    setIsSearchOff(true);
+    const scripts: ScriptType[] = [];
+    scriptsOff.forEach((script) => {
+      if (script.question.toLowerCase().includes(search.toLowerCase()))
+        scripts.push(script);
+    });
+    setScriptsOff(scripts);
+  }
+
+  function resetSearchOff() {
+    if (inputSearchOffRef.current) inputSearchOffRef.current.value = "";
+    setIsSearchOff(false);
+    getScriptsOff();
+  }
+
   function onClose() {
     const div = document.querySelector(".chat-container");
     if (div) div.innerHTML = "";
@@ -198,29 +299,44 @@ export function useHome() {
   }
 
   return {
-    setEmail,
     user,
     email,
     password,
-    setPassword,
     error,
     loading,
     name,
-    setName,
     confirmPassword,
-    setConfirmPassword,
     errorMessage,
     createNewUser,
-    setCreateNewUser,
     isOpenChat,
+    chatText,
+    isOpenMenu,
+    isOpenImage,
+    image,
+    titleImage,
+    scriptsOut,
+    scriptsOff,
+    isSearchOut,
+    isSearchOff,
+    setEmail,
+    setPassword,
+    setName,
+    setConfirmPassword,
+    setCreateNewUser,
     setIsOpenChat,
     login,
     createUser,
-    chatText,
     setChatText,
     insertQuestionChat,
     onClose,
-    isOpenMenu,
     setIsOpenMenu,
+    setIsOpenImage,
+    setImage,
+    setTitleImage,
+    searchOut,
+    setIsSearchOut,
+    resetSearchOut,
+    searchOff,
+    resetSearchOff,
   };
 }
