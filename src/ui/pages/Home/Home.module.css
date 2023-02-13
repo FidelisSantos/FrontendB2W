@@ -70,7 +70,7 @@
 
 
 .scripts-container {
-  border: 1px solid black;
+  border: 1px solid rgb(255, 255, 255);
   min-width: 200px;
   min-height: 200px;
   overflow: auto !important;
