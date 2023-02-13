@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow: auto;
+  overflow: auto !important;
 }
 
 .home-auth-container {
@@ -10,6 +10,7 @@
   background-color: rgb(58, 255, 229);
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
 .open-script {
@@ -190,5 +191,5 @@
 }
 
 .chat-body {
-  overflow: auto;
+  overflow: auto ;
 }

@@ -1,15 +1,15 @@
 .chat {
-  overflow: hidden;
+  overflow: auto !important;
 }
 
-.chat:-webkit-scrollbar{
+.chat:-webkit-scrollbar {
   visibility: hidden;
   background-color: white;
   width: 1px;
   height: 1px;
 }
 
-.chat::-webkit-scrollbar-thumb{
+.chat::-webkit-scrollbar-thumb {
   background-color: white;
   width: 0px;
   height: 1px;
@@ -63,29 +63,30 @@
   height: 70vh;
   min-width: 400px;
   background: linear-gradient(90deg, rgb(82, 81, 81) 0%, rgb(71, 71, 71) 35%, rgb(31, 31, 31) 100%);
+  overflow-y: auto !important;
 }
 
-.chat-written-container{  
+.chat-written-container {  
   display: flex;
   flex-direction: column;
   height: calc(100% - 50px);
-  overflow: auto !important;
+  overflow-y: auto !important;
 }
 
-.chat-written-container::-webkit-scrollbar-thumb{
+.chat-written-container::-webkit-scrollbar-thumb {
   background-color: white;
   width: 0px;
   height: 1px;
 }
 
-.chat-written-container::-webkit-scrollbar{
+.chat-written-container::-webkit-scrollbar {
   visibility: hidden;
   background-color: white;
   width: 5px;
   height: 1px;
 }
 
-.chat-header{
+.chat-header {
   display: flex;
   justify-content: space-between;
   height: 35px;
@@ -98,6 +99,7 @@
   min-width: 100px;
   bottom: 0;
   width: 100%;
+  overflow: auto !important;
 }
 
 .chat-container-text button {
